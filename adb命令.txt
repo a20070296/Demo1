@@ -1,0 +1,182 @@
+更改光学配置文件
+adb push ___ /data/data/com.nibiru.vr.sdk.config/files/
+adb reboot
+adb push ___ /sdcard/usr/data/com.nibiru/
+
+adb pull /system/app/NibiruVRSdkSupport/
+
+/data/misc/vr/svrapi_config.txt
+/data/misc/qvr/svrapi_config.txt
+
+static const char* gSvrConfigFilePath = "/data/misc/vr/svrapi_config_nibiru.txt";
+static const char* gSvrConfigFilePathSystem = "/system/etc/vr/svrapi_config_nibiru.txt";
+
+\\192.168.2.4\steven-share\libshare\Sysrender\config
+/system/etc/nre/assets/nibiru_studio_native.config
+分屏配置文件
+adb pull /data/data/com.nibiru.vrconfig/files/nibiru_vr_config.xml
+
+adb push /data/nvr
+system/etc
+
+adb shell dumpsys SurfaceFlinger
+
+adb shell killall qvrservice
+adb shell start qvrservice
+终止程序
+adb shell am force-stop <package name> 
+
+查看mac地址
+adb shell  cat /sys/class/net/wlan0/address
+
+SDK选择：
+nvr.tw.mode  0为Nibiru，1为高通
+AR选择角度
+adb shell am broadcast -a com.nibiru.adb.cmd --es CMD_KEY 67 --ei CMD_VALUE -400
+prop属性：nvr.ar.offaxis.rotation = -2.00
+adb shell wm overscan 10,60,170,60
+adb shell am start -n com.nibiru.demobao/com.nibiru.demobao.MainActivity
+校准命令：
+adb shell "/system/bin/invn_cab cal /data/invn_cal.txt"
+adb shell "/system/bin/invn_cab load /data/invn_cal.txt"
+
+查看帧数：
+adb shell setprop nvr.debug.fps 1
+
+添加反色散：
+nvr.chromatic.enable = 1
+
+升级模式：
+adb reboot bootloader
+
+强制关闭
+adb shell am force-stop com.zjkj.vrtoukui
+
+修改反畸变
+adb shell setprop persist.sys.distortion false
+
+H8反畸变生效
+/system # chmod 644 build.prop
+nvr.debug.dtr=1  生效
+
+使生效
+adb shell setprop nvr.debug.on 1
+
+刷机准备
+adb reboot bootloader
+
+打开log
+adb shell setprop nvr.debug.level 4
+
+输入上下左右键
+adb shell input keyevent KEYCODE_ENTER
+
+adb shell input keyevent 110
+校正：adb shell am broadcast -a com.nibiru.vr.sdk.action.reset
+
+浏览器
+com.android.browser
+
+BOE翻转90°
+
+sh system/bin/hilcrest_orientation.sh
+
+看帧率
+   adb root
+   adb push F:\nibiru\监控工具\hardware_monitor.sh /data/
+   adb shell chmod 0777 /data/hardware_monitor.sh
+   adb shell /data/hardware_monitor.sh
+
+查看fps
+setprop debug.sf.showfps 1
+dumpsys SurfaceFlinger --showfps
+logcat |grep fps:
+
+
+三星7420查看 帧率的方法：
+system/build.prop pull出来
+加上debug.sf.showfps=1
+adb push build.prop system/
+adb shell chmod 644 system/build.prop
+
+推出图片
+adb pull /data/data/1.png .
+
+Cardboard模式：
+nvr.debug.dtr=0
+nvr.tracker=0
+nvr.sdk.level=1
+
+nvr.chromatic.enable=1  反色散
+
+更改开机动画
+adb remount
+adb push bootanimation.zip /system/media/
+adb reboot
+
+com.alensw.PicFolder
+
+density：数字越小，显示越多
+
+1.测试打包脚本仓库
+git clone git@192.168.2.4:repositories/NibiruCores/vrcores.git
+2.驱动,烧录工具仓库
+git clone git@192.168.2.4:repositories/NibiruTools/vrtools.git
+3,光学存放参数仓库
+git clone git@192.168.2.4:repositories/NibiruDislays/vrdisplays.gi
+
+
+* // 畸变网格测试（CMD_VALUE 0=关闭，1=开启棋盘网格，2=开启图片网格，切换时需要先关闭再开启）
+* adb shell am broadcast -a com.nibiru.adb.cmd --es CMD_KEY 107 --ei CMD_VALUE 1
+
+
+nbk文件安装：改成zip，解压，安装apk，adb push 文件夹 /sdcard/android/obb/文件夹名称/
+
+git仓库
+git clone git@192.168.2.4:repositories/NibiruDislays/vrdisplays.git
+
+K1=-0.03037
+K2=0.00103
+huaweiG7
+
+K1=-0.04424
+K2=0.01738
+iPhone5s
+
+高通820进入fastboot模式：
+拔掉电源，按住音量-，插上电源
+
+退出中控：
+长按返回3S  再按确认
+
+系统渲染设置：nibiru_mode_setting.xml
+无初始文件，联网后更新在/data/nvr/，用户调整后保存在/data/system/
+
+注释：前面加rem
+修改viewport：（NibiruSDKConfig.txt）
+viewport_rect_x = 0
+viewport_rect_y = 0
+viewport_rect_width = 1200
+viewport_rect_height = 1200
+高通修改viewport：
+gWarpViewPortX = 0
+gWarpViewPortY = 0
+gWarpViewPortWidth = 2880
+gWarpViewPortHeight = 1600
+
+需要登录Nibiru账号 [ 账号：13770928414 密码：123456 ]
+steven  
+
+adb启动程序范例，前面包名，后面类名
+adb shell am start -n com.nibiru.studio.mrdemo/x.core.XBaseXRActivity
+
+暂停
+timeout /T 2
+显示：
+echo connecting...
+
+SETLOCAL
+SET MY_PATH=%~dp0
+adb push %MY_PATH%NibiruSDKConfig.txt /system/etc/NibiruSDKConfig.txt
+
+关机：adb shell reboot -p
